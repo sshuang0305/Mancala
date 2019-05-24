@@ -8,14 +8,14 @@ import org.junit.Test;
 
 public class BowlTest {
 	
-	Bowl firstBowl;
+	Bowl cellNumber1;
 	
 	/**
 	 * @throws java.lang.Exception
 	 */
 	@Before
 	public void setUp() throws Exception {
-		firstBowl = new Bowl();
+		cellNumber1 = new Bowl();
 	}
 
 	/**
@@ -23,21 +23,22 @@ public class BowlTest {
 	 */
 	@After
 	public void tearDown() throws Exception {
-		firstBowl = null;
+		cellNumber1 = null;
 	}
 	
 
 	@Test
 	public void getNumberofBeadsTest() {
 
-		int beads = firstBowl.getNumberOfBeads();
+		int beads = cellNumber1.getNumberOfBeads();
 		assertEquals(4, beads);
 	}
 	
 	@Test
-	public void getNextNeighbourTest() {
-		Bowl nextBowl = firstBowl.getNextNeighbour();
-		assertNotNull(nextBowl);
+	public void getfourteenCellsTest() {
+		int domainSize = cellNumber1.getSizeOfDomain(cellNumber1);
+		assertEquals(14, domainSize);
 	}
+	
 
 }

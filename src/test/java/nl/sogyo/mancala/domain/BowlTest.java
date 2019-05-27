@@ -35,10 +35,77 @@ public class BowlTest {
 	}
 	
 	@Test
-	public void getfourteenCellsTest() {
+	public void getFourteenCellsTest() {
+
 		int domainSize = cellNumber1.getSizeOfDomain(cellNumber1);
 		assertEquals(14, domainSize);
 	}
 	
+	@Test
+	public void getOwnerOfBowlsTest() {
+		
+		assertEquals(cellNumber1.getOwner(), cellNumber1.getANeighbour(1).getOwner());
+		assertEquals(cellNumber1.getOwner(), cellNumber1.getANeighbour(2).getOwner());
+		assertEquals(cellNumber1.getOwner(), cellNumber1.getANeighbour(3).getOwner());
+		assertEquals(cellNumber1.getOwner(), cellNumber1.getANeighbour(4).getOwner());
+		assertEquals(cellNumber1.getOwner(), cellNumber1.getANeighbour(5).getOwner());
+		assertEquals(cellNumber1.getOwner(), cellNumber1.getANeighbour(6).getOwner());
+		assertEquals(cellNumber1.getOwner().getOpponent(), cellNumber1.getANeighbour(7).getOwner());
+		assertEquals(cellNumber1.getOwner().getOpponent(), cellNumber1.getANeighbour(8).getOwner());
+		assertEquals(cellNumber1.getOwner().getOpponent(), cellNumber1.getANeighbour(9).getOwner());
+		assertEquals(cellNumber1.getOwner().getOpponent(), cellNumber1.getANeighbour(10).getOwner());
+		assertEquals(cellNumber1.getOwner().getOpponent(), cellNumber1.getANeighbour(11).getOwner());
+		assertEquals(cellNumber1.getOwner().getOpponent(), cellNumber1.getANeighbour(12).getOwner());
+		assertEquals(cellNumber1.getOwner().getOpponent(), cellNumber1.getANeighbour(13).getOwner());
+
+	}
+	
+	@Test
+	public void switchOwnerofBowlTest() {
+		assertEquals(true, cellNumber1.getOwner().getMyTurn());
+		cellNumber1.getOwner().switchTurnBothPlayers();
+		assertEquals(false, cellNumber1.getOwner().getMyTurn());
+		assertEquals(false, cellNumber1.getANeighbour(1).getOwner().getMyTurn());
+		assertEquals(false, cellNumber1.getANeighbour(6).getOwner().getMyTurn());
+		cellNumber1.getOwner().switchTurnBothPlayers();
+		assertEquals(true, cellNumber1.getOwner().getMyTurn());
+	}
+
+	
+	@Test
+	public void distributeBeadsInMoveTest() {
+		assertEquals(4, cellNumber1.getNumberOfBeads());
+		cellNumber1.doMove();
+		assertEquals(0, cellNumber1.getNumberOfBeads());
+		assertEquals(5, cellNumber1.getANeighbour(1).getNumberOfBeads());
+		assertEquals(5, cellNumber1.getANeighbour(2).getNumberOfBeads());
+		assertEquals(5, cellNumber1.getANeighbour(3).getNumberOfBeads());
+		assertEquals(5, cellNumber1.getANeighbour(4).getNumberOfBeads());
+		assertEquals(4, cellNumber1.getANeighbour(5).getNumberOfBeads());
+		assertEquals(0, cellNumber1.getANeighbour(6).getNumberOfBeads());
+	}
+	
+	@Test
+	public void distributeEndsInBowl() {
+		assertEquals(true, cellNumber1.getOwner().getMyTurn());
+		cellNumber1.doMove();
+		assertEquals(false, cellNumber1.getOwner().getMyTurn());
+	}
+	
+	@Test
+	public void distributeEndsInOwnKalahaTest() {
+		
+		assertEquals(true, cellNumber1.getANeighbour(2).getOwner().getMyTurn());
+		cellNumber1.getANeighbour(2).doMove();
+		assertEquals(true, cellNumber1.getOwner().getMyTurn());
+	}
+	
+	@Test
+	public void distributeEndsInOpponentKalahaTest() {
+		assertEquals(true, cellNumber1.getOwner().getMyTurn());
+		cellNumber1.getANeighbour(9).doMove();
+		assertEquals(false, cellNumber1.getOwner().getMyTurn());
+	}
+
 
 }

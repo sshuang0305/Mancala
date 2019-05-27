@@ -9,6 +9,8 @@ import org.junit.Test;
 public class KalahaTest {
 	
 	Bowl cellNumber1;
+	Cell firstKalaha;
+	Cell secondKalaha;
 	
 	/**
 	 * @throws java.lang.Exception
@@ -16,6 +18,8 @@ public class KalahaTest {
 	@Before
 	public void setUp() throws Exception {
 		cellNumber1 = new Bowl();
+		firstKalaha = cellNumber1.getANeighbour(6);
+		secondKalaha = cellNumber1.getANeighbour(13);
 	}
 
 	/**
@@ -24,17 +28,31 @@ public class KalahaTest {
 	@After
 	public void tearDown() throws Exception {
 		cellNumber1 = null;
+		firstKalaha = null;
+		secondKalaha = null;
 	}
 
+	@Test
+	public void kahalaExistsTest() {
+		assertTrue(firstKalaha instanceof Kalaha);
+		assertTrue(secondKalaha instanceof Kalaha);
+	}
 
 	@Test
 	public void getNumberofBeadsTest() {
-
-		Cell firstKalaha = cellNumber1.getNextNeighbour();
-		Cell secondKalaha = cellNumber1.getANeighbour(8);
 		assertEquals(0, firstKalaha.getNumberOfBeads());
 		assertEquals(0, secondKalaha.getNumberOfBeads());
 	}
 	
+	@Test
+	public void getOwnerTest() {
+		assertEquals(cellNumber1.getOwner(), firstKalaha.getOwner());
+		assertEquals(cellNumber1.getOwner().getOpponent(), secondKalaha.getOwner());
+	}
+	
+	@Test (expected = RuntimeException.class)
+	public void doMoveOnKalahaTest() {
+		firstKalaha.doMove();
+	}
 
 }

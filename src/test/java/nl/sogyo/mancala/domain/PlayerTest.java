@@ -3,9 +3,7 @@ package nl.sogyo.mancala.domain;
 import static org.junit.Assert.*;
 
 import org.junit.After;
-import org.junit.AfterClass;
 import org.junit.Before;
-import org.junit.BeforeClass;
 import org.junit.Test;
 
 public class PlayerTest {
@@ -31,21 +29,25 @@ public class PlayerTest {
 	@Test
 	public void getPlayer() {
 
-		String name = player.getName();
 		boolean myTurn = player.getMyTurn();
-
-		assertEquals("A", name);
 		assertEquals(true, myTurn);
 	}
 	
 	@Test
 	public void getOpponent() {
-		String opponentName = player.getOpponent().getName();
 		boolean opponentTurn = player.getOpponent().getMyTurn();
 		Player opponentsOpponent = player.getOpponent().getOpponent();
-		assertEquals("B", opponentName);
 		assertEquals(false, opponentTurn);
 		assertEquals(player, opponentsOpponent);
+	}
+	
+	@Test
+	public void switchOwnTurnTest() {
+		assertEquals(true, player.getMyTurn());
+		assertEquals(false, player.getOpponent().getMyTurn());
+		player.switchTurnBothPlayers();
+		assertEquals(false, player.getMyTurn());
+		assertEquals(true, player.getOpponent().getMyTurn());
 	}
 
 }

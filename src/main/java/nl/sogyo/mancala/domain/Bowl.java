@@ -3,27 +3,29 @@ package nl.sogyo.mancala.domain;
 class Bowl extends Cell {
 	
 	final static int numberOfCells = 14;
-
-
 	
 	public Bowl() {
-		this.nextNeighbour = new Kalaha(numberOfCells, this);
+		
+		this.owner = new Player();
+		this.nextNeighbour = new Bowl(numberOfCells - 1, this, owner);
+
 	}
 	
-	Bowl(int n, Bowl origin) {
-
-		if (n == 2) {
-			this.nextNeighbour = origin;
-		}
-		else if(n == (numberOfCells / 2 + 1)) {
-			this.nextNeighbour = new Kalaha(n - 1, origin);
+	Bowl(int n, Bowl origin, Player owner) {
+		
+		if (n < 8) {
+			this.owner = owner.getOpponent();
 		}
 		else {
-			this.nextNeighbour = new Bowl(n - 1, origin);
+			this.owner = owner;
+		}
+
+
+		if(n == (numberOfCells / 2 + 2) || n == 2) {
+			this.nextNeighbour = new Kalaha(n - 1, origin, owner);
+		}
+		else {
+			this.nextNeighbour = new Bowl(n - 1, origin, owner);
 		}
 	}
-	
-
-
-	
 }

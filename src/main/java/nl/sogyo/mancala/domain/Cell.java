@@ -2,18 +2,19 @@ package nl.sogyo.mancala.domain;
 
 abstract class Cell {
 
-	protected int startingNumberOfBeads = 4;
+	protected int numberOfBeads = 4;
 	protected int sizeOfDomain = 0;
+	protected Player owner;
 
-	Cell nextNeighbour;
+	protected Cell nextNeighbour;
 
 
 	public int getNumberOfBeads() {
-		return startingNumberOfBeads;
+		return this.numberOfBeads;
 	}
 
 	public Cell getNextNeighbour() {
-		return nextNeighbour;
+		return this.nextNeighbour;
 	}
 	
 	public Cell getANeighbour(int number) {
@@ -39,6 +40,33 @@ abstract class Cell {
 		}
 		
 		return sizeOfDomain;
+	}
+	
+	public Player getOwner() {
+		return this.owner;
+	}
+
+	public void doMove() {
+		this.distributeBeads(this.nextNeighbour, this.numberOfBeads);
+		this.numberOfBeads = 0;
+	}
+	
+	public void distributeBeads(Cell cell, int beadsToDistribute) {
+
+		cell.numberOfBeads++;
+
+		if (beadsToDistribute == 1) {
+			
+			// dit deel moet nog aangepast worden
+			if (!(cell instanceof Kalaha) && cell.getOwner() != this.getOwner()) {
+				cell.owner.switchTurnBothPlayers();
+			}
+
+		}
+		else {
+			distributeBeads(cell.nextNeighbour, beadsToDistribute - 1);
+		}
+
 	}
 
 }

@@ -93,19 +93,31 @@ public class BowlTest {
 	}
 	
 	@Test
-	public void distributeEndsInOwnKalahaTest() {
-		
-		assertEquals(true, cellNumber1.getANeighbour(2).getOwner().getMyTurn());
-		cellNumber1.getANeighbour(2).doMove();
-		assertEquals(true, cellNumber1.getOwner().getMyTurn());
+	public void getOppositeCell () {
+		assertEquals(cellNumber1.getANeighbour(12), cellNumber1.getOppositeCell());
+		assertEquals(cellNumber1.getANeighbour(11), cellNumber1.getANeighbour(1).getOppositeCell());
+		assertEquals(cellNumber1.getANeighbour(10), cellNumber1.getANeighbour(2).getOppositeCell());
+		assertEquals(cellNumber1.getANeighbour(9), cellNumber1.getANeighbour(3).getOppositeCell());
+		assertEquals(cellNumber1.getANeighbour(8), cellNumber1.getANeighbour(4).getOppositeCell());
+		assertEquals(cellNumber1.getANeighbour(7), cellNumber1.getANeighbour(5).getOppositeCell());
+		assertEquals(cellNumber1.getANeighbour(13), cellNumber1.getANeighbour(6).getOppositeCell());
+		assertEquals(cellNumber1.getANeighbour(5), cellNumber1.getANeighbour(7).getOppositeCell());
+		assertEquals(cellNumber1.getANeighbour(4), cellNumber1.getANeighbour(8).getOppositeCell());
+	}
+
+
+	@Test
+	public void stealTest() {
+		assertEquals(4, cellNumber1.getNumberOfBeads());
+		cellNumber1.steal();
+		assertEquals(0, cellNumber1.getNumberOfBeads());
+		assertEquals(0, cellNumber1.getANeighbour(12).getNumberOfBeads());
+		assertEquals(8, cellNumber1.getANeighbour(6).getNumberOfBeads());
 	}
 	
-	@Test
-	public void distributeEndsInOpponentKalahaTest() {
-		assertEquals(true, cellNumber1.getOwner().getMyTurn());
-		cellNumber1.getANeighbour(9).doMove();
-		assertEquals(false, cellNumber1.getOwner().getMyTurn());
+	@Test (expected = RuntimeException.class)
+	public void moveValidTest() {
+		cellNumber1.doMove();
+		cellNumber1.doMove();
 	}
-
-
 }

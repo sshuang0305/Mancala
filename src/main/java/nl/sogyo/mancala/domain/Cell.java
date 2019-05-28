@@ -7,6 +7,7 @@ abstract class Cell {
 	protected Player owner;
 
 	protected Cell nextNeighbour;
+	final static int numberOfCells = 14;
 
 
 	public int getNumberOfBeads() {
@@ -18,6 +19,10 @@ abstract class Cell {
 	}
 	
 	public Cell getANeighbour(int number) {
+		
+		if (number == 0) {
+			return this;
+		}
 
 		Cell aNeighbour = nextNeighbour;
 		
@@ -47,26 +52,56 @@ abstract class Cell {
 	}
 
 	public void doMove() {
+		
+		if (!this.owner.getMyTurn()) {
+			throw new RuntimeException("Its not your turn.");
+		}
+		
 		this.distributeBeads(this.nextNeighbour, this.numberOfBeads);
 		this.numberOfBeads = 0;
 	}
 	
 	public void distributeBeads(Cell cell, int beadsToDistribute) {
 
-		cell.numberOfBeads++;
 
 		if (beadsToDistribute == 1) {
-			
-			// dit deel moet nog aangepast worden
-			if (!(cell instanceof Kalaha) && cell.getOwner() != this.getOwner()) {
+			cell.numberOfBeads++;
+			if (cell instanceof Kalaha && !cell.getOwner().getMyTurn() || !(cell instanceof Kalaha)) {
 				cell.owner.switchTurnBothPlayers();
 			}
-
 		}
+
 		else {
-			distributeBeads(cell.nextNeighbour, beadsToDistribute - 1);
+			if (cell instanceof Kalaha && !cell.getOwner().getMyTurn()) {
+				distributeBeads(cell.nextNeighbour, beadsToDistribute);
+			}
+			else {
+				cell.numberOfBeads++;
+				distributeBeads(cell.nextNeighbour, beadsToDistribute - 1);
+			}
 		}
 
+	}
+	
+	public Cell getOppositeCell() {
+		
+		if (this instanceof Kalaha) {
+			return this.getANeighbour(numberOfCells / 2);
+		}
+		
+		int counter = 0;
+		Cell next = this.getNextNeighbour();
+		
+		while (!(next instanceof Kalaha)) {
+			next = next.getNextNeighbour();
+			counter++;
+		}
+		
+		if (next instanceof Kalaha) {
+			Cell oppositeCell = next.getANeighbour(counter + 1);
+			return oppositeCell;
+		}
+		return next;
 	}
 
 }

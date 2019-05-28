@@ -53,12 +53,25 @@ abstract class Cell {
 
 	public void doMove() {
 		
+		if (this.checkIfBowlsEmpty()) {
+			System.out.println("won");
+		}
+		
+		if (this.numberOfBeads == 0) {
+			throw new RuntimeException("Bowl does not contain beads.");
+		}
+		
 		if (!this.owner.getMyTurn()) {
 			throw new RuntimeException("Its not your turn.");
 		}
 		
 		this.distributeBeads(this.nextNeighbour, this.numberOfBeads);
 		this.numberOfBeads = 0;
+	}
+	
+	public boolean checkIfBowlsEmpty() {
+		boolean empty = false;
+		return empty;
 	}
 	
 	public void distributeBeads(Cell cell, int beadsToDistribute) {
@@ -102,6 +115,10 @@ abstract class Cell {
 			return oppositeCell;
 		}
 		return next;
+	}
+	
+	public void emptyBowl() {
+		this.numberOfBeads = 0;
 	}
 
 }

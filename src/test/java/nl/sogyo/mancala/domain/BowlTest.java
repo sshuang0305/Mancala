@@ -116,8 +116,19 @@ public class BowlTest {
 	}
 	
 	@Test (expected = RuntimeException.class)
-	public void moveValidTest() {
+	public void moveInvalidTest() {
 		cellNumber1.doMove();
-		cellNumber1.doMove();
+		cellNumber1.getANeighbour(1).doMove();
+	}
+	
+	@Test
+	public void checkIfGameIsWon() {
+		cellNumber1.getANeighbour(7).emptyBowl();
+		cellNumber1.getANeighbour(8).emptyBowl();
+		cellNumber1.getANeighbour(9).emptyBowl();
+		cellNumber1.getANeighbour(10).emptyBowl();
+		cellNumber1.getANeighbour(11).emptyBowl();
+		cellNumber1.getANeighbour(12).emptyBowl();
+		cellNumber1.getANeighbour(1).doMove();
 	}
 }

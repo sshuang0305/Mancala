@@ -4,7 +4,7 @@ public class Player {
 	
 	Player opponent;
 	boolean myTurn;
-	
+
 	Player () {
 		this.myTurn = true;
 		this.opponent = new Player(this);
@@ -24,8 +24,11 @@ public class Player {
 	}
 	
 	public void switchTurnBothPlayers() {
+
 		this.opponent.myTurn = myTurn;
-		this.myTurn = !myTurn;
+		this.myTurn = !myTurn;		
+
 	}
+
 
 }

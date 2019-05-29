@@ -29,19 +29,5 @@ class Bowl extends Cell {
 		}
 	}
 	
-	public void steal() {
 
-		this.getOppositeCell().numberOfBeads += this.numberOfBeads;
-		this.numberOfBeads = 0;
-		
-		while (true) {
-			Cell next = this.getNextNeighbour();
-			if (next instanceof Kalaha && next.getOwner().getMyTurn()) {
-				next.numberOfBeads = this.getOppositeCell().numberOfBeads;
-				this.getOppositeCell().numberOfBeads = 0;
-				break;
-			}
-
-		}
-	}
 }

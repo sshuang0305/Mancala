@@ -53,10 +53,6 @@ abstract class Cell {
 
 	public void doMove() {
 		
-		if (this.checkIfBowlsEmpty()) {
-			System.out.println("won");
-		}
-		
 		if (this.numberOfBeads == 0) {
 			throw new RuntimeException("Bowl does not contain beads.");
 		}
@@ -69,19 +65,24 @@ abstract class Cell {
 		this.numberOfBeads = 0;
 	}
 	
-	public boolean checkIfBowlsEmpty() {
-		boolean empty = false;
-		return empty;
-	}
+
 	
 	public void distributeBeads(Cell cell, int beadsToDistribute) {
 
 
 		if (beadsToDistribute == 1) {
+
 			cell.numberOfBeads++;
+			
+			if (cell.getNumberOfBeads() == 1) {
+				cell.stealBeadsOppositeCell();
+			}
+
 			if (cell instanceof Kalaha && !cell.getOwner().getMyTurn() || !(cell instanceof Kalaha)) {
 				cell.owner.switchTurnBothPlayers();
 			}
+			
+			// check if game is won
 		}
 
 		else {
@@ -119,6 +120,23 @@ abstract class Cell {
 	
 	public void emptyBowl() {
 		this.numberOfBeads = 0;
+	}
+	
+	public void stealBeadsOppositeCell() {
+		
+		this.numberOfBeads += this.getOppositeCell().numberOfBeads;
+		this.getOppositeCell().numberOfBeads = 0;
+
+
+		Cell nextCell = this.getNextNeighbour();
+		
+		while (!(nextCell instanceof Kalaha)) {
+			nextCell = nextCell.getNextNeighbour();
+		}
+
+		nextCell.numberOfBeads += this.numberOfBeads;
+		this.numberOfBeads = 0;
+		this.getOppositeCell().numberOfBeads = 0;
 	}
 
 }

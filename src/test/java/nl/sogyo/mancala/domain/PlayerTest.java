@@ -9,13 +9,17 @@ import org.junit.Test;
 public class PlayerTest {
 	
 	Player player;
+	Bowl cellNumber1;
 	
 	/**
 	 * @throws java.lang.Exception
 	 */
 	@Before
 	public void setUp() throws Exception {
+		
+		
 		player = new Player();
+		cellNumber1 = new Bowl();
 	}
 
 	/**
@@ -24,6 +28,7 @@ public class PlayerTest {
 	@After
 	public void tearDown() throws Exception {
 		player = null;
+		cellNumber1 = null;
 	}
 
 	@Test
@@ -48,5 +53,13 @@ public class PlayerTest {
 		player.switchTurnBothPlayers();
 		assertEquals(false, player.getMyTurn());
 		assertEquals(true, player.getOpponent().getMyTurn());
+	}
+	
+	@Test
+	public void getKalahaOfPlayer() {
+		assertEquals(cellNumber1.getANeighbour(6), cellNumber1.owner.getKalaha());
+		assertEquals(cellNumber1.getANeighbour(13), cellNumber1.owner.getOpponent().getKalaha());
+		assertTrue(cellNumber1.owner.getKalaha() instanceof Kalaha);
+		assertTrue(cellNumber1.owner.getOpponent().getKalaha() instanceof Kalaha);
 	}
 }

@@ -61,8 +61,12 @@ abstract class Cell {
 			throw new RuntimeException("Its not your turn.");
 		}
 		
-		this.distributeBeads(this.nextNeighbour, this.numberOfBeads);
+		int beadsToDistribute = this.numberOfBeads;
 		this.numberOfBeads = 0;
+		this.distributeBeads(this.nextNeighbour, beadsToDistribute);
+
+		this.owner.checkIfGameFinished();
+
 	}
 	
 
@@ -72,6 +76,7 @@ abstract class Cell {
 
 		if (beadsToDistribute == 1) {
 
+
 			cell.numberOfBeads++;
 			
 			if (cell.getNumberOfBeads() == 1) {
@@ -79,10 +84,11 @@ abstract class Cell {
 			}
 
 			if (cell instanceof Kalaha && !cell.getOwner().getMyTurn() || !(cell instanceof Kalaha)) {
-				cell.owner.switchTurnBothPlayers();
+				this.owner.switchTurnBothPlayers();
+				
 			}
-			
-			// check if game is won
+
+
 		}
 
 		else {

@@ -28,17 +28,16 @@ public class BowlTest {
 	
 
 	@Test
-	public void getNumberofBeadsTest() {
-
+	public void getNumberOfBeadsInBowlTest() {
 		int beads = cellNumber1.getNumberOfBeads();
 		assertEquals(4, beads);
 	}
 	
 	@Test
 	public void getFourteenCellsTest() {
-
-		int domainSize = cellNumber1.getSizeOfDomain(cellNumber1);
+		int domainSize = cellNumber1.getSizeOfDomain();
 		assertEquals(14, domainSize);
+		assertEquals(14, cellNumber1.getANeighbour(4).getSizeOfDomain());
 	}
 	
 	@Test

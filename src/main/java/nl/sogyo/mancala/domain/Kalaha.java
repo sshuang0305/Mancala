@@ -2,12 +2,13 @@ package nl.sogyo.mancala.domain;
 
 class Kalaha extends Cell {
 	
-	final static int numberOfCells = 14;
-	final static int totalNumberOfBeads = 12 * 4;
+
+	final static int STARTING_NO_BEADS = 0;
+	final static int TOTAL_NO_BEADS = 12 * 4;
 	
 	
 	public Kalaha(int n, Bowl origin, Player owner) {
-		this.numberOfBeads = 0;
+		this.numberOfBeads = STARTING_NO_BEADS;
 		
 		if (n == 8) {
 			this.owner = owner;
@@ -23,6 +24,10 @@ class Kalaha extends Cell {
 		throw new RuntimeException("Cannot do a move on a Kalaha.");
 	}
 	
+	public void steal() {
+		throw new RuntimeException("Cannot steal from Kalaha.");
+	}
+	
 	public int getScore() {
 		
 		Cell nextCell = this.getNextNeighbour();
@@ -33,7 +38,7 @@ class Kalaha extends Cell {
 			nextCell = nextCell.getNextNeighbour();
 		}
 		
-		return totalNumberOfBeads - numberOfBeadsOpponent;
+		return  TOTAL_NO_BEADS- numberOfBeadsOpponent;
 
 	}
 

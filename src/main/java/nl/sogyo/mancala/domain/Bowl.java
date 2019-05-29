@@ -1,17 +1,18 @@
 package nl.sogyo.mancala.domain;
 
 class Bowl extends Cell {
-	
-	final static int numberOfCells = 14;
+
+	final static int STARTING_NO_BEADS = 4;
 	
 	public Bowl() {
-		
+		this.numberOfBeads = STARTING_NO_BEADS;
 		this.owner = new Player();
 		this.nextNeighbour = new Bowl(numberOfCells - 1, this, owner);
 
 	}
 	
 	Bowl(int n, Bowl origin, Player owner) {
+		this.numberOfBeads = STARTING_NO_BEADS;
 		
 		if (n < 8) {
 			this.owner = owner.getOpponent();

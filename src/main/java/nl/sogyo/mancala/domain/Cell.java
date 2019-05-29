@@ -2,7 +2,7 @@ package nl.sogyo.mancala.domain;
 
 abstract class Cell {
 
-	protected int numberOfBeads = 4;
+	protected int numberOfBeads;
 	protected int sizeOfDomain = 0;
 	protected Player owner;
 
@@ -32,19 +32,14 @@ abstract class Cell {
 		return aNeighbour;
 	}
 	
-	public int getSizeOfDomain(Cell original) {
-		
-		if (this.getNextNeighbour().equals(original)) {
-			return original.sizeOfDomain + 1;
-		}
-		
-		else if (this.getNextNeighbour() != null) {
+	public int getSizeOfDomain() {
 
-			original.sizeOfDomain++;
-			return this.getNextNeighbour().getSizeOfDomain(original);
+		Cell nextCell = this.nextNeighbour;		
+		while (!(nextCell.equals(this))) {
+			this.sizeOfDomain ++;
+			nextCell = nextCell.nextNeighbour;
 		}
-		
-		return sizeOfDomain;
+		return sizeOfDomain + 1;
 	}
 	
 	public Player getOwner() {

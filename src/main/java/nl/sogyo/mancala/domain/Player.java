@@ -45,7 +45,7 @@ public class Player {
 	
 	public void checkIfGameFinished() {
 
-		Cell myCell = this.opponent.myKalaha.getNextNeighbour();
+		Cell myCell = this.opponent.myKalaha.nextNeighbour;
 
 		while (!(myCell instanceof Kalaha)) {
 			

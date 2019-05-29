@@ -55,10 +55,15 @@ public class KalahaTest {
 		firstKalaha.doMove();
 	}
 	
+	@Test (expected = RuntimeException.class)
+	public void stealFromKalahaTest() {
+		firstKalaha.steal();
+	}
+	
 	@Test
 	public void distributeEndsInOwnKalahaTest() {
 		assertEquals(true, cellNumber1.getANeighbour(2).getOwner().getMyTurn());
-		cellNumber1.getANeighbour(2).doMove();
+		((Bowl) cellNumber1.getANeighbour(2)).doMove();
 		assertEquals(true, cellNumber1.getOwner().getMyTurn());
 	}
 

@@ -16,8 +16,6 @@ public class PlayerTest {
 	 */
 	@Before
 	public void setUp() throws Exception {
-		
-		
 		player = new Player();
 		cellNumber1 = new Bowl();
 	}
@@ -33,33 +31,32 @@ public class PlayerTest {
 
 	@Test
 	public void getPlayer() {
-
-		boolean myTurn = player.getMyTurn();
+		boolean myTurn = player.myTurn;
 		assertEquals(true, myTurn);
 	}
 	
 	@Test
 	public void getOpponent() {
-		boolean opponentTurn = player.getOpponent().getMyTurn();
-		Player opponentsOpponent = player.getOpponent().getOpponent();
+		boolean opponentTurn = player.opponent.myTurn;
+		Player opponentsOpponent = player.opponent.opponent;
 		assertEquals(false, opponentTurn);
 		assertEquals(player, opponentsOpponent);
 	}
 	
 	@Test
 	public void switchOwnTurnTest() {
-		assertEquals(true, player.getMyTurn());
-		assertEquals(false, player.getOpponent().getMyTurn());
+		assertEquals(true, player.myTurn);
+		assertEquals(false, player.opponent.myTurn);
 		player.switchTurnBothPlayers();
-		assertEquals(false, player.getMyTurn());
-		assertEquals(true, player.getOpponent().getMyTurn());
+		assertEquals(false, player.myTurn);
+		assertEquals(true, player.opponent.myTurn);
 	}
 	
 	@Test
 	public void getKalahaOfPlayer() {
-		assertEquals(cellNumber1.getANeighbour(6), cellNumber1.owner.getKalaha());
-		assertEquals(cellNumber1.getANeighbour(13), cellNumber1.owner.getOpponent().getKalaha());
+		assertEquals(cellNumber1.getNeighbour(6), cellNumber1.owner.getKalaha());
+		assertEquals(cellNumber1.getNeighbour(13), cellNumber1.owner.opponent.getKalaha());
 		assertTrue(cellNumber1.owner.getKalaha() instanceof Kalaha);
-		assertTrue(cellNumber1.owner.getOpponent().getKalaha() instanceof Kalaha);
+		assertTrue(cellNumber1.owner.opponent.getKalaha() instanceof Kalaha);
 	}
 }

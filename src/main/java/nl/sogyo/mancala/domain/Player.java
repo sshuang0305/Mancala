@@ -1,12 +1,19 @@
+/**
+ * Player.java
+ * 
+ * @author Shan Shan Huang
+ * @since 22-05-19
+ */
+
 package nl.sogyo.mancala.domain;
 
 public class Player {
 	
-	Player opponent;
-	boolean myTurn;
-	Cell myKalaha;
-	boolean bowlsEmpty = true;
-	boolean gameFinished;
+	protected boolean myTurn;
+	protected Player opponent;
+	protected Cell myKalaha;
+	protected boolean allMyBowlsEmpty = true;
+	protected boolean gameFinished;
 
 	Player () {
 		this.myTurn = true;
@@ -17,22 +24,10 @@ public class Player {
 		this.myTurn = false;
 		this.opponent = myOpponent;
 	}
-	
-	public Player getOpponent() {
-		return opponent;
-	}
-	
-	public boolean getMyTurn() {
-		return myTurn;
-	}
-	
+
 	public void switchTurnBothPlayers() {
-
-
-
 		this.opponent.myTurn = myTurn;
 		this.myTurn = !myTurn;
-
 	}
 
 	public void setKalaha(Cell kalaha) {
@@ -49,26 +44,26 @@ public class Player {
 
 		while (!(myCell instanceof Kalaha)) {
 			
-			if (myCell.getNumberOfBeads() != 0) {
-				this.bowlsEmpty = false;
+			if (myCell.numberOfBeads != 0) {
+				this.allMyBowlsEmpty = false;
 			}
 			myCell = myCell.nextNeighbour;
 		}
 
-		Cell oppCell = this.myKalaha.getNextNeighbour();
+		Cell oppCell = this.myKalaha.nextNeighbour;
 		
 		while (!(oppCell instanceof Kalaha)) {
 
-			if (oppCell.getNumberOfBeads() != 0) {
-				this.opponent.bowlsEmpty = false;
+			if (oppCell.numberOfBeads != 0) {
+				this.opponent.allMyBowlsEmpty = false;
 			}
 			oppCell = oppCell.nextNeighbour;
-			if (oppCell.getNumberOfBeads() != 0) {
-				this.opponent.bowlsEmpty = false;
+			if (oppCell.numberOfBeads != 0) {
+				this.opponent.allMyBowlsEmpty = false;
 			}
 		}
 		
-		if (this.bowlsEmpty || this.opponent.bowlsEmpty) {
+		if (this.allMyBowlsEmpty || this.opponent.allMyBowlsEmpty) {
 			this.gameFinished = true;
 			this.opponent.gameFinished = true;
 		}

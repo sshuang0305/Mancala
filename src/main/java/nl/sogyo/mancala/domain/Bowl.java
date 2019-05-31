@@ -28,8 +28,8 @@ class Bowl extends Cell {
 	 * Initializes the number of beads, assigns the owner of the cell,
 	 * and assures that the neighbour of last cell is the first bowl again.
 	 * @param counter		Integer to count how many cells to make
-	 * @param firstBowl		Reference to firstbowl for the last cell to point to
-	 * @param owner			Assignes an owner to each bowl/kalaha (each owner has 6bowls + 1kalaha)
+	 * @param firstBowl		Reference to first bowl for the last cell to point to
+	 * @param owner			Assigns an owner to each bowl/kalaha (each owner has 6bowls + 1kalaha)
 	 */
 	Bowl(int counter, Bowl firstBowl, Player owner) {
 

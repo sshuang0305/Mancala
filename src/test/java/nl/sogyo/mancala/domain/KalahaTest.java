@@ -67,7 +67,6 @@ public class KalahaTest {
 		assertEquals(true, cellNumber1.owner.myTurn);
 	}
 
-
 	@Test
 	public void distributePassingOpponentsKalahaTest() {
 		cellNumber1.getNeighbour(1).doMove();
@@ -79,7 +78,6 @@ public class KalahaTest {
 		assertEquals(1, cellNumber1.getNeighbour(13).numberOfBeads);
 		assertEquals(5, cellNumber1.getNeighbour(14).numberOfBeads);
 		assertEquals(0, cellNumber1.getNeighbour(15).numberOfBeads);
-
 	}
 	
 	@Test

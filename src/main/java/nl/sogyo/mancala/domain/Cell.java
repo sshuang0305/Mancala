@@ -1,5 +1,6 @@
 /**
  * Cell.java
+ *
  * 
  * @author Shan Shan Huang
  * @since 22-05-19
@@ -70,7 +71,7 @@ abstract class Cell {
 
 	/**
 	 * Distributes beads that it receives by adding one bead to own cell and passing
-	 * the remaing beads to the neighbour.
+	 * the remaining beads to the neighbour.
 	 * When passing the kalaha of the opponent, it will not add a bead to it.
 	 * When the last bead ends in bowl on own side, it can steal beads of the opposite cell.
 	 * When the last bead ends in own kalaha, the player gets to play again.

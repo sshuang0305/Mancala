@@ -25,7 +25,6 @@ public class BowlTest {
 	public void tearDown() throws Exception {
 		cellNumber1 = null;
 	}
-	
 
 	@Test
 	public void getNumberOfBeadsInBowlTest() {
@@ -42,7 +41,6 @@ public class BowlTest {
 	
 	@Test
 	public void getOwnerOfBowlsTest() {
-		
 		assertEquals(cellNumber1.owner, cellNumber1.getNeighbour(1).owner);
 		assertEquals(cellNumber1.owner, cellNumber1.getNeighbour(2).owner);
 		assertEquals(cellNumber1.owner, cellNumber1.getNeighbour(3).owner);
@@ -56,7 +54,6 @@ public class BowlTest {
 		assertEquals(cellNumber1.owner.opponent, cellNumber1.getNeighbour(11).owner);
 		assertEquals(cellNumber1.owner.opponent, cellNumber1.getNeighbour(12).owner);
 		assertEquals(cellNumber1.owner.opponent, cellNumber1.getNeighbour(13).owner);
-
 	}
 	
 	@Test
@@ -103,7 +100,6 @@ public class BowlTest {
 		assertEquals(cellNumber1.getNeighbour(5), cellNumber1.getNeighbour(7).getOppositeCell());
 		assertEquals(cellNumber1.getNeighbour(4), cellNumber1.getNeighbour(8).getOppositeCell());
 	}
-
 
 	@Test
 	public void stealTest() {
@@ -155,7 +151,6 @@ public class BowlTest {
 		assertEquals(0 ,cellNumber1.getNeighbour(3).numberOfBeads);
 		assertEquals(0 ,cellNumber1.getNeighbour(4).numberOfBeads);
 		assertEquals(4 ,cellNumber1.getNeighbour(5).numberOfBeads);
-
 
 		assertFalse(cellNumber1.owner.gameFinished);
 		cellNumber1.getNeighbour(5).doMove();

@@ -12,13 +12,37 @@ abstract class Cell {
 
 	final static int TOTAL_NO_CELLS = 14;
 
-	protected int numberOfBeads;
-	protected int sizeOfDomain = 0;
-	protected Player owner;
-	protected Cell nextNeighbour;
+	private int numberOfBeads;
+	private int sizeOfDomain = 0;
+	private Player owner;
+	private Cell nextNeighbour;
+	
+	public int getNumberOfBeads() {
+		return this.numberOfBeads;
+	}
+	
+	public void setStartingNumberOfBeads(int beads) {
+		this.numberOfBeads = beads;
+	}
+	
+	public Player getOwner() {
+		return this.owner;
+	}
+	
+	public void setStartingOwner(Player myOwner) {
+		this.owner = myOwner;
+	}
+	
+	public Cell getNextNeighbour() {
+		return this.nextNeighbour;
+	}
+	
+	public void setNextNeighbour(Cell neighbour) {
+		this.nextNeighbour = neighbour;
+	}
 	
 	/**
-	 * Gets your neighbour (Bowl/Kalaha) at a specified position, counting from 1.
+	 * Gets your neighbour (Bowl/Kalaha) at a specified position
 	 *
 	 * @param positionOfNeighbour Integer to specify position of neighbour
 	 * @return					  Neighbour at specified position
@@ -58,15 +82,13 @@ abstract class Cell {
 	 */
 	public void doMove() {
 
-		if (this.numberOfBeads == 0) {
-			throw new RuntimeException("Bowl does not contain beads.");
+		boolean bowlEmpty = this.numberOfBeads == 0 ? true : false;
+
+		if (!bowlEmpty && this.owner.getMyTurn()) {
+			this.distributeBeads(this.nextNeighbour, this.numberOfBeads);
+			this.emptyOwnBowl();
+			this.owner.checkIfGameFinished();
 		}
-		if (!this.owner.myTurn) {
-			throw new RuntimeException("It is not your turn.");
-		}
-		this.distributeBeads(this.nextNeighbour, this.numberOfBeads);
-		this.emptyOwnBowl();
-		this.owner.checkIfGameFinished();
 	}
 
 	/**
@@ -80,19 +102,28 @@ abstract class Cell {
 	 * @param beadsToDistribute		Number of beads you want to distribute
 	 */
 	public void distributeBeads(Cell nextCell, int beadsToDistribute) {
+		
+		boolean beadEndsInOwnEmptyBowl = nextCell.numberOfBeads == 0 &&
+										 nextCell.owner.getMyTurn();
+	
+		// VERANDEREN: dit is gedrag van kalaha!
+		boolean beadNotEndingInOwnKalaha = !(nextCell instanceof Kalaha) ||
+										   (nextCell instanceof Kalaha &&
+										   !nextCell.owner.getMyTurn());
 
 		if (beadsToDistribute == 1) {
 			nextCell.numberOfBeads++;
-			if (nextCell.numberOfBeads == 1 && nextCell.owner.myTurn) {
+			if (beadEndsInOwnEmptyBowl) {
 				nextCell.stealBeadsOppositeCell();
 			}
-			if (!(nextCell instanceof Kalaha) || (nextCell instanceof Kalaha && !nextCell.owner.myTurn)) {
+			if (beadNotEndingInOwnKalaha) {
 				this.owner.switchTurnBothPlayers();
 			}
 		}
 
 		else {
-			if (nextCell instanceof Kalaha && !nextCell.owner.myTurn) {
+			// VERANDEREN: dit is gedrag van kalaha!
+			if (nextCell instanceof Kalaha && !nextCell.owner.getMyTurn()) {
 				distributeBeads(nextCell.nextNeighbour, beadsToDistribute);
 			}
 			nextCell.numberOfBeads++;
@@ -101,25 +132,14 @@ abstract class Cell {
 	}
 	
 	/**
-	 * Gets the opposite cell by counting your distance to your Kalaha
+	 * Gets the opposite bowl by counting your distance to your Kalaha
 	 * and adding the distance to your kalaha to get the opposite cell.
 	 * 
 	 * @return	The opposite cell of your cell
 	 */
-	public Cell getOppositeCell() {
-		
-		if (this instanceof Kalaha) {
-			return this.getNeighbour(TOTAL_NO_CELLS / 2);
-		}
-
-		int distanceToKalaha = 0;
-		Cell nextCell = this.nextNeighbour;
-		while (!(nextCell instanceof Kalaha)) {
-			nextCell = nextCell.nextNeighbour;
-			distanceToKalaha++;
-		}
-		Cell oppositeCell = nextCell.getNeighbour(distanceToKalaha + 1);
-			return oppositeCell;
+	public Cell getOppositeBowl() {
+		Cell oppositeCell = this.getNeighbour(2 * this.getDistanceToMyKalaha());
+		return oppositeCell;
 	}
 
 	/**
@@ -128,8 +148,8 @@ abstract class Cell {
 	 */
 	public void stealBeadsOppositeCell() {
 		
-		this.numberOfBeads += this.getOppositeCell().numberOfBeads;
-		this.getOppositeCell().emptyOwnBowl();
+		this.numberOfBeads += this.getOppositeBowl().numberOfBeads;
+		this.getOppositeBowl().emptyOwnBowl();
 
 		Cell nextCell = this.nextNeighbour;
 		while (!(nextCell instanceof Kalaha)) {
@@ -146,4 +166,7 @@ abstract class Cell {
 	public void emptyOwnBowl() {
 		this.numberOfBeads = 0;
 	}
+	
+	abstract Kalaha getMyKalaha();
+	abstract int getDistanceToMyKalaha();
 }

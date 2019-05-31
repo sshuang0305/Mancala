@@ -40,14 +40,14 @@ public class KalahaTest {
 
 	@Test
 	public void getNumberofBeadsTest() {
-		assertEquals(0, firstKalaha.numberOfBeads);
-		assertEquals(0, secondKalaha.numberOfBeads);
+		assertEquals(0, firstKalaha.getNumberOfBeads());
+		assertEquals(0, secondKalaha.getNumberOfBeads());
 	}
 	
 	@Test
 	public void getOwnerTest() {
-		assertEquals(cellNumber1.owner, firstKalaha.owner);
-		assertEquals(cellNumber1.owner.opponent, secondKalaha.owner);
+		assertEquals(cellNumber1.getOwner(), firstKalaha.getOwner());
+		assertEquals(cellNumber1.getOwner().getOpponent(), secondKalaha.getOwner());
 	}
 	
 	@Test (expected = RuntimeException.class)
@@ -62,34 +62,34 @@ public class KalahaTest {
 	
 	@Test
 	public void distributeEndsInOwnKalahaTest() {
-		assertEquals(true, cellNumber1.getNeighbour(2).owner.myTurn);
+		assertEquals(true, cellNumber1.getNeighbour(2).getOwner().getMyTurn());
 		((Bowl) cellNumber1.getNeighbour(2)).doMove();
-		assertEquals(true, cellNumber1.owner.myTurn);
+		assertEquals(true, cellNumber1.getOwner().getMyTurn());
 	}
 
 	@Test
 	public void distributePassingOpponentsKalahaTest() {
 		cellNumber1.getNeighbour(1).doMove();
-		assertEquals(4, cellNumber1.getNeighbour(12).numberOfBeads);
+		assertEquals(4, cellNumber1.getNeighbour(12).getNumberOfBeads());
 		cellNumber1.getNeighbour(10).doMove();
-		assertEquals(0, cellNumber1.getNeighbour(10).numberOfBeads);
-		assertEquals(5, cellNumber1.getNeighbour(11).numberOfBeads);
-		assertEquals(5, cellNumber1.getNeighbour(12).numberOfBeads);
-		assertEquals(1, cellNumber1.getNeighbour(13).numberOfBeads);
-		assertEquals(5, cellNumber1.getNeighbour(14).numberOfBeads);
-		assertEquals(0, cellNumber1.getNeighbour(15).numberOfBeads);
+		assertEquals(0, cellNumber1.getNeighbour(10).getNumberOfBeads());
+		assertEquals(5, cellNumber1.getNeighbour(11).getNumberOfBeads());
+		assertEquals(5, cellNumber1.getNeighbour(12).getNumberOfBeads());
+		assertEquals(1, cellNumber1.getNeighbour(13).getNumberOfBeads());
+		assertEquals(5, cellNumber1.getNeighbour(14).getNumberOfBeads());
+		assertEquals(0, cellNumber1.getNeighbour(15).getNumberOfBeads());
 	}
 	
 	@Test
 	public void distributePassingOwnKalahaTest() {
-		assertEquals(4, cellNumber1.getNeighbour(5).numberOfBeads);
+		assertEquals(4, cellNumber1.getNeighbour(5).getNumberOfBeads());
 		cellNumber1.getNeighbour(5).doMove();
-		assertEquals(0, cellNumber1.getNeighbour(5).numberOfBeads);
-		assertEquals(1, cellNumber1.getNeighbour(6).numberOfBeads);
-		assertEquals(5, cellNumber1.getNeighbour(7).numberOfBeads);
-		assertEquals(5, cellNumber1.getNeighbour(8).numberOfBeads);
-		assertEquals(5, cellNumber1.getNeighbour(9).numberOfBeads);
-		assertEquals(4, cellNumber1.getNeighbour(10).numberOfBeads);
+		assertEquals(0, cellNumber1.getNeighbour(5).getNumberOfBeads());
+		assertEquals(1, cellNumber1.getNeighbour(6).getNumberOfBeads());
+		assertEquals(5, cellNumber1.getNeighbour(7).getNumberOfBeads());
+		assertEquals(5, cellNumber1.getNeighbour(8).getNumberOfBeads());
+		assertEquals(5, cellNumber1.getNeighbour(9).getNumberOfBeads());
+		assertEquals(4, cellNumber1.getNeighbour(10).getNumberOfBeads());
 	}
 	
 	@Test
@@ -98,5 +98,4 @@ public class KalahaTest {
 		assertEquals(23, firstKalaha.getScore());
 		assertEquals(25, secondKalaha.getScore());
 	}
-
 }

@@ -31,32 +31,32 @@ public class PlayerTest {
 
 	@Test
 	public void getPlayer() {
-		boolean myTurn = player.myTurn;
+		boolean myTurn = player.getMyTurn();
 		assertEquals(true, myTurn);
 	}
 	
 	@Test
 	public void getOpponent() {
-		boolean opponentTurn = player.opponent.myTurn;
-		Player opponentsOpponent = player.opponent.opponent;
+		boolean opponentTurn = player.getOpponent().getMyTurn();
+		Player opponentsOpponent = player.getOpponent().getOpponent();
 		assertEquals(false, opponentTurn);
 		assertEquals(player, opponentsOpponent);
 	}
 	
 	@Test
 	public void switchOwnTurnTest() {
-		assertEquals(true, player.myTurn);
-		assertEquals(false, player.opponent.myTurn);
+		assertEquals(true, player.getMyTurn());
+		assertEquals(false, player.getOpponent().getMyTurn());
 		player.switchTurnBothPlayers();
-		assertEquals(false, player.myTurn);
-		assertEquals(true, player.opponent.myTurn);
+		assertEquals(false, player.getMyTurn());
+		assertEquals(true, player.getOpponent().getMyTurn());
 	}
 	
 	@Test
 	public void getKalahaOfPlayer() {
-		assertEquals(cellNumber1.getNeighbour(6), cellNumber1.owner.getKalaha());
-		assertEquals(cellNumber1.getNeighbour(13), cellNumber1.owner.opponent.getKalaha());
-		assertTrue(cellNumber1.owner.getKalaha() instanceof Kalaha);
-		assertTrue(cellNumber1.owner.opponent.getKalaha() instanceof Kalaha);
+		assertEquals(cellNumber1.getNeighbour(6), cellNumber1.getOwner().getKalaha());
+		assertEquals(cellNumber1.getNeighbour(13), cellNumber1.getOwner().getOpponent().getKalaha());
+		assertTrue(cellNumber1.getOwner().getKalaha() instanceof Kalaha);
+		assertTrue(cellNumber1.getOwner().getOpponent().getKalaha() instanceof Kalaha);
 	}
 }

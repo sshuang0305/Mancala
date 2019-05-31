@@ -10,10 +10,10 @@ package nl.sogyo.mancala.domain;
 
 public class Player {
 	
-	protected boolean myTurn;
-	protected Player opponent;
-	protected Cell myKalaha;
-	protected boolean allMyBowlsEmpty = true;
+	private boolean myTurn;
+	private Player opponent;
+	private Cell myKalaha;
+	private boolean allMyBowlsEmpty = true;
 	protected boolean gameFinished;
 
 	/**
@@ -34,7 +34,18 @@ public class Player {
 		this.myTurn = false;
 		this.opponent = myOpponent;
 	}
+	
+	public boolean getMyTurn() {
+		return this.myTurn;
+	}
 
+	public void setMyTurn(boolean turn) {
+		this.myTurn = turn;
+	}
+
+	public Player getOpponent() {
+		return this.opponent;
+	}
 	/**
 	 * Switches the turn of the players.
 	 */
@@ -65,25 +76,25 @@ public class Player {
 	 */
 	public void checkIfGameFinished() {
 
-		Cell myCell = this.opponent.myKalaha.nextNeighbour;
+		Cell myCell = this.opponent.myKalaha.getNextNeighbour();
 
 		while (!(myCell instanceof Kalaha)) {
 			
-			if (myCell.numberOfBeads != 0) {
+			if (myCell.getNumberOfBeads() != 0) {
 				this.allMyBowlsEmpty = false;
 			}
-			myCell = myCell.nextNeighbour;
+			myCell = myCell.getNextNeighbour();
 		}
 
-		Cell oppCell = this.myKalaha.nextNeighbour;
+		Cell oppCell = this.myKalaha.getNextNeighbour();
 		
 		while (!(oppCell instanceof Kalaha)) {
 
-			if (oppCell.numberOfBeads != 0) {
+			if (oppCell.getNumberOfBeads() != 0) {
 				this.opponent.allMyBowlsEmpty = false;
 			}
-			oppCell = oppCell.nextNeighbour;
-			if (oppCell.numberOfBeads != 0) {
+			oppCell = oppCell.getNextNeighbour();
+			if (oppCell.getNumberOfBeads() != 0) {
 				this.opponent.allMyBowlsEmpty = false;
 			}
 		}

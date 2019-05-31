@@ -9,17 +9,15 @@ package nl.sogyo.mancala.domain;
 
 class Bowl extends Cell {
 
-	final static int STARTING_NO_BEADS = 4;
-	
 	/**
 	 * Bowl constructor to create the first bowl.
 	 * Initializes the number of beads, assigns an owner to the bowl,
 	 * and creates 13 neighbouring bowls.
 	 */
 	public Bowl() {
-		this.numberOfBeads = STARTING_NO_BEADS;
-		this.owner = new Player();
-		this.nextNeighbour = new Bowl(TOTAL_NO_CELLS - 1, this, owner);
+		super.setStartingNumberOfBeads(4);
+		super.setStartingOwner(new Player());
+		super.setNextNeighbour(new Bowl(TOTAL_NO_CELLS - 1, this, getOwner()));
 
 	}
 	
@@ -32,21 +30,30 @@ class Bowl extends Cell {
 	 * @param owner			Assigns an owner to each bowl/kalaha (each owner has 6bowls + 1kalaha)
 	 */
 	Bowl(int counter, Bowl firstBowl, Player owner) {
-
-		this.numberOfBeads = STARTING_NO_BEADS;		
+		super.setStartingNumberOfBeads(4);
 		if (counter < 8) {
-			this.owner = owner.opponent;
+			super.setStartingOwner(owner.getOpponent());
 		}
 		else {
-			this.owner = owner;
+			super.setStartingOwner(owner);
 		}
 
 		if(counter == 2 || counter == (TOTAL_NO_CELLS / 2 + 2)) {
-			this.nextNeighbour = new Kalaha(counter - 1, firstBowl, owner);
-			this.owner.setKalaha(this.nextNeighbour);
+			super.setNextNeighbour(new Kalaha(counter - 1, firstBowl, owner));
+			this.getOwner().setKalaha(super.getNextNeighbour());
 		}
 		else {
-			this.nextNeighbour = new Bowl(counter - 1, firstBowl, owner);
+			super.setNextNeighbour(new Bowl(counter - 1, firstBowl, owner));
 		}
+	}
+
+	@Override
+	Kalaha getMyKalaha() {
+		return this.getNextNeighbour().getMyKalaha();
+	}
+
+	@Override
+	int getDistanceToMyKalaha() {
+		return this.getNextNeighbour().getDistanceToMyKalaha() + 1;
 	}
 }

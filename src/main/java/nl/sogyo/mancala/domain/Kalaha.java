@@ -20,14 +20,14 @@ class Kalaha extends Cell {
 	 * @param owner			Assignes an owner to each kalaha
 	 */
 	public Kalaha(int counter, Bowl firstBowl, Player owner) {
-		this.numberOfBeads = STARTING_NO_BEADS;
+		super.setStartingNumberOfBeads(0);
 		if (counter == 8) {
-			this.owner = owner;
-			this.nextNeighbour = new Bowl(counter - 1, firstBowl, owner);
+			super.setStartingOwner(owner);
+			super.setNextNeighbour(new Bowl(counter - 1, firstBowl, owner));
 		}
 		else {
-			this.owner = owner.opponent;
-			this.nextNeighbour = firstBowl;
+			super.setStartingOwner(owner.getOpponent());
+			super.setNextNeighbour(firstBowl);
 		}
 	}
 	
@@ -55,13 +55,23 @@ class Kalaha extends Cell {
 	 */
 	public int getScore() {
 		
-		Cell nextCell = this.nextNeighbour;
-		int numberOfBeadsOpponent = this.owner.opponent.getKalaha().numberOfBeads;
+		Cell nextCell = this.getNextNeighbour();
+		int numberOfBeadsOpponent = this.getOwner().getOpponent().getKalaha().getNumberOfBeads();
 		
 		while (!(nextCell instanceof Kalaha)) {
-			numberOfBeadsOpponent += nextCell.numberOfBeads;
-			nextCell = nextCell.nextNeighbour;
+			numberOfBeadsOpponent += nextCell.getNumberOfBeads();
+			nextCell = nextCell.getNextNeighbour();
 		}
 		return  TOTAL_NO_BEADS- numberOfBeadsOpponent;
+	}
+
+	@Override
+	Kalaha getMyKalaha() {
+		return this;
+	}
+
+	@Override
+	int getDistanceToMyKalaha() {
+		return 0;
 	}
 }

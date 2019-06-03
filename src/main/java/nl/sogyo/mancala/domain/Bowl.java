@@ -56,4 +56,40 @@ class Bowl extends Cell {
 	int getDistanceToMyKalaha() {
 		return this.getNextNeighbour().getDistanceToMyKalaha() + 1;
 	}
+	
+	@Override
+	public void distributeBeads(int beadsToDistribute) {
+		
+		boolean beadEndsInOwnEmptyBowl = this.getNumberOfBeads() == 0 &&
+										 this.getOwner().getMyTurn();
+
+		if (beadsToDistribute == 0) {
+			this.addOneBead();
+			if (beadEndsInOwnEmptyBowl) {
+				this.stealBeadsOppositeCell();
+			}
+			this.getOwner().switchTurnBothPlayers();
+
+		}
+		else {
+			this.addOneBead();
+			this.getNextNeighbour().distributeBeads(beadsToDistribute - 1);
+		}
+	}
+	
+	/**
+	 * Steals the beads from the opposite bowl by adding those beads to own bowl,
+	 * and then adding all beads to your own kalaha, leaving both bowls empty.
+	 */
+	public void stealBeadsOppositeCell() {
+		
+		this.addBeads(this.getOppositeBowl().getNumberOfBeads());
+		this.getOppositeBowl().emptyOwnBowl();
+
+		
+		Kalaha myKalaha = this.getMyKalaha();
+
+		myKalaha.addBeads(this.getNumberOfBeads());
+		this.emptyOwnBowl();
+	}
 }

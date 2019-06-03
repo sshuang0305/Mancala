@@ -16,9 +16,18 @@ abstract class Cell {
 	private int sizeOfDomain = 0;
 	private Player owner;
 	private Cell nextNeighbour;
+	int score;
 	
 	public int getNumberOfBeads() {
 		return this.numberOfBeads;
+	}
+	
+	public void addOneBead() {
+		this.numberOfBeads++;
+	}
+	
+	public void addBeads(int beads) {
+		this.numberOfBeads += beads;
 	}
 	
 	public void setStartingNumberOfBeads(int beads) {
@@ -82,10 +91,11 @@ abstract class Cell {
 	 */
 	public void doMove() {
 
-		boolean bowlEmpty = this.numberOfBeads == 0 ? true : false;
+		boolean bowlEmpty = this.numberOfBeads == 0;
+		int beadsToDistribute = this.numberOfBeads;
 
 		if (!bowlEmpty && this.owner.getMyTurn()) {
-			this.distributeBeads(this.nextNeighbour, this.numberOfBeads);
+			this.distributeBeads(beadsToDistribute);
 			this.emptyOwnBowl();
 			this.owner.checkIfGameFinished();
 		}
@@ -101,35 +111,7 @@ abstract class Cell {
 	 * @param nextCell 				The cell you want to pass your beads to
 	 * @param beadsToDistribute		Number of beads you want to distribute
 	 */
-	public void distributeBeads(Cell nextCell, int beadsToDistribute) {
-		
-		boolean beadEndsInOwnEmptyBowl = nextCell.numberOfBeads == 0 &&
-										 nextCell.owner.getMyTurn();
-	
-		// VERANDEREN: dit is gedrag van kalaha!
-		boolean beadNotEndingInOwnKalaha = !(nextCell instanceof Kalaha) ||
-										   (nextCell instanceof Kalaha &&
-										   !nextCell.owner.getMyTurn());
-
-		if (beadsToDistribute == 1) {
-			nextCell.numberOfBeads++;
-			if (beadEndsInOwnEmptyBowl) {
-				nextCell.stealBeadsOppositeCell();
-			}
-			if (beadNotEndingInOwnKalaha) {
-				this.owner.switchTurnBothPlayers();
-			}
-		}
-
-		else {
-			// VERANDEREN: dit is gedrag van kalaha!
-			if (nextCell instanceof Kalaha && !nextCell.owner.getMyTurn()) {
-				distributeBeads(nextCell.nextNeighbour, beadsToDistribute);
-			}
-			nextCell.numberOfBeads++;
-			distributeBeads(nextCell.nextNeighbour, beadsToDistribute - 1);
-		}
-	}
+	public void distributeBeads(int beadsToDistribute) {}
 	
 	/**
 	 * Gets the opposite bowl by counting your distance to your Kalaha
@@ -142,23 +124,7 @@ abstract class Cell {
 		return oppositeCell;
 	}
 
-	/**
-	 * Steals the beads from the opposite bowl by adding those beads to own bowl,
-	 * and then adding all beads to your own kalaha, leaving both bowls empty.
-	 */
-	public void stealBeadsOppositeCell() {
-		
-		this.numberOfBeads += this.getOppositeBowl().numberOfBeads;
-		this.getOppositeBowl().emptyOwnBowl();
 
-		Cell nextCell = this.nextNeighbour;
-		while (!(nextCell instanceof Kalaha)) {
-			nextCell = nextCell.nextNeighbour;
-		}
-		Cell myKalaha = nextCell;
-		myKalaha.numberOfBeads += this.numberOfBeads;
-		this.emptyOwnBowl();
-	}
 	
 	/**
 	 * When called on a bowl, it will set the number of beads in the bowl to 0.

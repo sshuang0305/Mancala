@@ -54,7 +54,7 @@ class Kalaha extends Cell {
 	 * @return The total number of beads in own kalaha and own 6 bowls
 	 */
 	public int getScore() {
-		
+
 		Cell nextCell = this.getNextNeighbour();
 		int numberOfBeadsOpponent = this.getOwner().getOpponent().getKalaha().getNumberOfBeads();
 		
@@ -73,5 +73,25 @@ class Kalaha extends Cell {
 	@Override
 	int getDistanceToMyKalaha() {
 		return 0;
+	}
+	
+	@Override
+	public void distributeBeads(int beadsToDistribute) {
+		
+		if(beadsToDistribute == 0) {
+			if (!this.getOwner().getMyTurn()) {
+				this.getOwner().switchTurnBothPlayers();
+			}
+		}
+		
+		else {
+			if (this.getOwner().getMyTurn()) {
+				this.addOneBead();
+				this.getNextNeighbour().distributeBeads(beadsToDistribute - 1);
+			}
+			else {
+				this.getNextNeighbour().distributeBeads(beadsToDistribute);
+			}
+		}
 	}
 }

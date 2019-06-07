@@ -12,6 +12,7 @@ class Kalaha extends Cell {
 	final static int STARTING_NO_BEADS = 0;
 	final static int TOTAL_NO_BEADS = 12 * 4;
 
+
 	/**
 	 * Kalaha constructor.
 	 * Initializes the number of beads, assigns the owner to a kalaha.
@@ -48,22 +49,7 @@ class Kalaha extends Cell {
 	public void steal() {
 		throw new RuntimeException("Cannot steal from kalaha.");
 	}
-	
-	/**
-	 * When called on a cell, it will return the score of its owner.
-	 * @return The total number of beads in own kalaha and own 6 bowls
-	 */
-	public int getScore() {
 
-		Cell nextCell = this.getNextNeighbour();
-		int numberOfBeadsOpponent = this.getOwner().getOpponent().getKalaha().getNumberOfBeads();
-		
-		while (!(nextCell instanceof Kalaha)) {
-			numberOfBeadsOpponent += nextCell.getNumberOfBeads();
-			nextCell = nextCell.getNextNeighbour();
-		}
-		return  TOTAL_NO_BEADS- numberOfBeadsOpponent;
-	}
 
 	@Override
 	Kalaha getMyKalaha() {
@@ -73,6 +59,12 @@ class Kalaha extends Cell {
 	@Override
 	int getDistanceToMyKalaha() {
 		return 0;
+	}
+	
+	@Override
+	public Cell getOppositeCell() {
+		Cell oppositeCell = this.getNeighbour(7);
+		return oppositeCell;
 	}
 	
 	@Override
@@ -94,4 +86,10 @@ class Kalaha extends Cell {
 			}
 		}
 	}
+
+	@Override
+	boolean areMyBowlsEmpty() {
+		return true;
+	}
+
 }

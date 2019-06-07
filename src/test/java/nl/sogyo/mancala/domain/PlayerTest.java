@@ -52,11 +52,4 @@ public class PlayerTest {
 		assertEquals(true, player.getOpponent().getMyTurn());
 	}
 	
-	@Test
-	public void getKalahaOfPlayer() {
-		assertEquals(cellNumber1.getNeighbour(6), cellNumber1.getOwner().getKalaha());
-		assertEquals(cellNumber1.getNeighbour(13), cellNumber1.getOwner().getOpponent().getKalaha());
-		assertTrue(cellNumber1.getOwner().getKalaha() instanceof Kalaha);
-		assertTrue(cellNumber1.getOwner().getOpponent().getKalaha() instanceof Kalaha);
-	}
 }

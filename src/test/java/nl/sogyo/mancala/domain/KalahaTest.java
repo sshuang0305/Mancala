@@ -94,9 +94,5 @@ public class KalahaTest {
 	
 	@Test
 	public void getScoreTest() {
-		cellNumber1.getNeighbour(3).doMove();
-		
-		assertEquals(23, firstKalaha.getScore());
-		assertEquals(25, secondKalaha.getScore());
 	}
 }

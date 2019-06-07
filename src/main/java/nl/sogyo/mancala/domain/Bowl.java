@@ -40,7 +40,7 @@ class Bowl extends Cell {
 
 		if(counter == 2 || counter == (TOTAL_NO_CELLS / 2 + 2)) {
 			super.setNextNeighbour(new Kalaha(counter - 1, firstBowl, owner));
-			this.getOwner().setKalaha(super.getNextNeighbour());
+//			this.getOwner().setKalaha(super.getNextNeighbour());
 		}
 		else {
 			super.setNextNeighbour(new Bowl(counter - 1, firstBowl, owner));
@@ -83,13 +83,22 @@ class Bowl extends Cell {
 	 */
 	public void stealBeadsOppositeCell() {
 		
-		this.addBeads(this.getOppositeBowl().getNumberOfBeads());
-		this.getOppositeBowl().emptyOwnBowl();
+		this.addBeads(this.getOppositeCell().getNumberOfBeads());
+		this.getOppositeCell().emptyOwnBowl();
 
-		
 		Kalaha myKalaha = this.getMyKalaha();
 
 		myKalaha.addBeads(this.getNumberOfBeads());
 		this.emptyOwnBowl();
+	}
+
+
+	@Override
+	boolean areMyBowlsEmpty() {
+
+		if (this.getNumberOfBeads() == 0) {
+			return this.getNextNeighbour().areMyBowlsEmpty();
+		}
+		return false;
 	}
 }

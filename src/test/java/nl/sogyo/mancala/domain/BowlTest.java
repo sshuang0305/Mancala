@@ -90,14 +90,14 @@ public class BowlTest {
 	
 	@Test
 	public void getOppositeBowlTest () {
-		assertEquals(cellNumber1.getNeighbour(12), cellNumber1.getOppositeBowl());
-		assertEquals(cellNumber1.getNeighbour(11), cellNumber1.getNeighbour(1).getOppositeBowl());
-		assertEquals(cellNumber1.getNeighbour(10), cellNumber1.getNeighbour(2).getOppositeBowl());
-		assertEquals(cellNumber1.getNeighbour(9), cellNumber1.getNeighbour(3).getOppositeBowl());
-		assertEquals(cellNumber1.getNeighbour(8), cellNumber1.getNeighbour(4).getOppositeBowl());
-		assertEquals(cellNumber1.getNeighbour(7), cellNumber1.getNeighbour(5).getOppositeBowl());
-		assertEquals(cellNumber1.getNeighbour(5), cellNumber1.getNeighbour(7).getOppositeBowl());
-		assertEquals(cellNumber1.getNeighbour(4), cellNumber1.getNeighbour(8).getOppositeBowl());
+		assertEquals(cellNumber1.getNeighbour(12), cellNumber1.getOppositeCell());
+		assertEquals(cellNumber1.getNeighbour(11), cellNumber1.getNeighbour(1).getOppositeCell());
+		assertEquals(cellNumber1.getNeighbour(10), cellNumber1.getNeighbour(2).getOppositeCell());
+		assertEquals(cellNumber1.getNeighbour(9), cellNumber1.getNeighbour(3).getOppositeCell());
+		assertEquals(cellNumber1.getNeighbour(8), cellNumber1.getNeighbour(4).getOppositeCell());
+		assertEquals(cellNumber1.getNeighbour(7), cellNumber1.getNeighbour(5).getOppositeCell());
+		assertEquals(cellNumber1.getNeighbour(5), cellNumber1.getNeighbour(7).getOppositeCell());
+		assertEquals(cellNumber1.getNeighbour(4), cellNumber1.getNeighbour(8).getOppositeCell());
 	}
 
 	@Test
@@ -138,8 +138,31 @@ public class BowlTest {
 	}
 
 	@Test
-	public void checkIfGameIsWonTest() {
+	public void checkIfAllMyBowlsEmptyTest() {
 		
+		cellNumber1.emptyOwnBowl();
+		cellNumber1.getNeighbour(1).emptyOwnBowl();
+		cellNumber1.getNeighbour(2).emptyOwnBowl();
+		cellNumber1.getNeighbour(3).emptyOwnBowl();
+		cellNumber1.getNeighbour(4).emptyOwnBowl();
+		cellNumber1.getNeighbour(5).emptyOwnBowl();
+		
+		assertEquals(0 ,cellNumber1.getNumberOfBeads());
+		assertEquals(0 ,cellNumber1.getNeighbour(1).getNumberOfBeads());
+		assertEquals(0 ,cellNumber1.getNeighbour(2).getNumberOfBeads());
+		assertEquals(0 ,cellNumber1.getNeighbour(3).getNumberOfBeads());
+		assertEquals(0 ,cellNumber1.getNeighbour(4).getNumberOfBeads());
+		assertEquals(0 ,cellNumber1.getNeighbour(5).getNumberOfBeads());
+
+		assertTrue(cellNumber1.areAllMyBowlsEmpty());
+		assertTrue(cellNumber1.getNeighbour(1).areAllMyBowlsEmpty());
+		assertTrue(cellNumber1.getNeighbour(6).areAllMyBowlsEmpty());
+		assertFalse(cellNumber1.getNeighbour(13).areAllMyBowlsEmpty());
+		
+	}
+	
+	@Test
+	public void checkIfGameIsWonTest() {
 		cellNumber1.emptyOwnBowl();
 		cellNumber1.getNeighbour(1).emptyOwnBowl();
 		cellNumber1.getNeighbour(2).emptyOwnBowl();
@@ -152,9 +175,9 @@ public class BowlTest {
 		assertEquals(0 ,cellNumber1.getNeighbour(3).getNumberOfBeads());
 		assertEquals(0 ,cellNumber1.getNeighbour(4).getNumberOfBeads());
 		assertEquals(4 ,cellNumber1.getNeighbour(5).getNumberOfBeads());
-
-		assertFalse(cellNumber1.getOwner().gameFinished);
+		
 		cellNumber1.getNeighbour(5).doMove();
+		assertEquals(0 ,cellNumber1.getNeighbour(5).getNumberOfBeads());
 		assertTrue(cellNumber1.getOwner().gameFinished);
 		
 	}

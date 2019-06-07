@@ -16,7 +16,6 @@ abstract class Cell {
 	private int sizeOfDomain = 0;
 	private Player owner;
 	private Cell nextNeighbour;
-	int score;
 	
 	public int getNumberOfBeads() {
 		return this.numberOfBeads;
@@ -97,7 +96,7 @@ abstract class Cell {
 		if (!bowlEmpty && this.owner.getMyTurn()) {
 			this.distributeBeads(beadsToDistribute);
 			this.emptyOwnBowl();
-			this.owner.checkIfGameFinished();
+			this.checkIfGameFinished();
 		}
 	}
 
@@ -119,7 +118,7 @@ abstract class Cell {
 	 * 
 	 * @return	The opposite cell of your cell
 	 */
-	public Cell getOppositeBowl() {
+	public Cell getOppositeCell() {
 		Cell oppositeCell = this.getNeighbour(2 * this.getDistanceToMyKalaha());
 		return oppositeCell;
 	}
@@ -133,6 +132,21 @@ abstract class Cell {
 		this.numberOfBeads = 0;
 	}
 	
+	
+	public boolean areAllMyBowlsEmpty() {
+		Cell opponnentsKalaha = this.getMyKalaha().getOppositeCell();
+		return opponnentsKalaha.getNextNeighbour().areMyBowlsEmpty();
+	
+	}
+	
+	public void checkIfGameFinished() {
+		if (this.areAllMyBowlsEmpty() || this.getOppositeCell().areAllMyBowlsEmpty()) {
+			this.getOwner().gameFinished = true;
+			this.getOwner().getOpponent().gameFinished = true;
+		}
+	}
+	
 	abstract Kalaha getMyKalaha();
 	abstract int getDistanceToMyKalaha();
+	abstract boolean areMyBowlsEmpty();
 }

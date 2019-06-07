@@ -12,9 +12,7 @@ public class Player {
 	
 	private boolean myTurn;
 	private Player opponent;
-	private Cell myKalaha;
-	private boolean allMyBowlsEmpty = true;
-	protected boolean gameFinished;
+	protected boolean gameFinished = false;
 
 	/**
 	 * Player constructor to create opponent.
@@ -53,56 +51,4 @@ public class Player {
 		this.opponent.myTurn = myTurn;
 		this.myTurn = !myTurn;
 	}
-
-	/**
-	 * Sets the kalaha of the player.
-	 * @param kalaha	The kalaha of the player
-	 */
-	public void setKalaha(Cell kalaha) {
-		this.myKalaha = kalaha;
-	}
-	
-	/**
-	 * Gets the kalaha of the player.
-	 * @return	The kalaha of the player
-	 */
-	public Cell getKalaha() {
-		return this.myKalaha;
-	}
-	
-	/**
-	 * Checks if game is finished by checking if the bowls of one
-	 * of the players are empty.
-	 */
-	public void checkIfGameFinished() {
-
-		Cell myCell = this.opponent.myKalaha.getNextNeighbour();
-
-		while (!(myCell instanceof Kalaha)) {
-			
-			if (myCell.getNumberOfBeads() != 0) {
-				this.allMyBowlsEmpty = false;
-			}
-			myCell = myCell.getNextNeighbour();
-		}
-
-		Cell oppCell = this.myKalaha.getNextNeighbour();
-		
-		while (!(oppCell instanceof Kalaha)) {
-
-			if (oppCell.getNumberOfBeads() != 0) {
-				this.opponent.allMyBowlsEmpty = false;
-			}
-			oppCell = oppCell.getNextNeighbour();
-			if (oppCell.getNumberOfBeads() != 0) {
-				this.opponent.allMyBowlsEmpty = false;
-			}
-		}
-		
-		if (this.allMyBowlsEmpty || this.opponent.allMyBowlsEmpty) {
-			this.gameFinished = true;
-			this.opponent.gameFinished = true;
-		}
-	}
-
 }

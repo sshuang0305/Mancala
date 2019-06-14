@@ -38,7 +38,7 @@ class Kalaha extends Cell {
 	* @throws RuntimeException If move is called on a kalaha
 	*/
 	public void doMove() {
-		throw new RuntimeException("Cannot do a move on a kalaha.");
+		System.out.println("Cannot do move on kalaha. Try again");
 	}
 	
 	/**
@@ -78,7 +78,7 @@ class Kalaha extends Cell {
 		
 		else {
 			if (this.getOwner().getMyTurn()) {
-				this.addOneBead();
+				this.addBeads(1);
 				this.getNextNeighbour().distributeBeads(beadsToDistribute - 1);
 			}
 			else {

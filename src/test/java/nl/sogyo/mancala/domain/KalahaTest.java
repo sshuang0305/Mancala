@@ -50,7 +50,7 @@ public class KalahaTest {
 		assertEquals(cellNumber1.getOwner().getOpponent(), secondKalaha.getOwner());
 	}
 	
-	@Test (expected = RuntimeException.class)
+	@Test
 	public void doMoveOnKalahaTest() {
 		firstKalaha.doMove();
 	}

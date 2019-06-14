@@ -39,6 +39,11 @@ public class BowlTest {
 		assertEquals(14, cellNumber1.getNeighbour(4).getSizeOfDomain());
 	}
 	
+	@Test (expected = IllegalArgumentException.class)
+	public void getNeighbourNegativePositionTest() {
+		cellNumber1.getNeighbour(-5);
+	}
+	
 	@Test
 	public void getOwnerOfBowlsTest() {
 		assertEquals(cellNumber1.getOwner(), cellNumber1.getNeighbour(1).getOwner());
@@ -67,7 +72,6 @@ public class BowlTest {
 		assertEquals(true, cellNumber1.getOwner().getMyTurn());
 	}
 
-	
 	@Test
 	public void distributeBeadsInMoveTest() {
 		assertEquals(4, cellNumber1.getNumberOfBeads());

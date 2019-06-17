@@ -15,10 +15,10 @@ class Bowl extends Cell {
 	 * and creates 13 neighbouring bowls.
 	 */
 	public Bowl() {
+
 		super.setStartingNumberOfBeads(4);
 		super.setStartingOwner(new Player());
 		super.setNextNeighbour(new Bowl(TOTAL_NO_CELLS - 1, this, getOwner()));
-
 	}
 	
 	/**
@@ -30,6 +30,7 @@ class Bowl extends Cell {
 	 * @param owner			Assigns an owner to each bowl/kalaha (each owner has 6bowls + 1kalaha)
 	 */
 	Bowl(int counter, Bowl firstBowl, Player owner) {
+
 		super.setStartingNumberOfBeads(4);
 		if (counter < 8) {
 			super.setStartingOwner(owner.getOpponent());
@@ -46,42 +47,50 @@ class Bowl extends Cell {
 		}
 	}
 
-	@Override
-	Kalaha getMyKalaha() {
-		return this.getNextNeighbour().getMyKalaha();
-	}
-
-	@Override
-	int getDistanceToMyKalaha() {
-		return this.getNextNeighbour().getDistanceToMyKalaha() + 1;
-	}
-	
-	@Override
-	public void doMove() {
+	/**
+	 * Overrides the doMove function.
+	 * 
+	 * Does a move on a bowl by emptying bowl and distributing the beads
+	 * in the bowl. When an empty bowl is selected, or when its not the turn
+	 * of the player, it will let the player know. Checks if game is finished 
+	 * after each move.
+	 */
+	void doMove() {
 
 		boolean bowlEmpty = this.getNumberOfBeads() == 0;
 		int beadsToDistribute = this.getNumberOfBeads();
 
-		if (!bowlEmpty && this.getOwner().getMyTurn()) {
+		if (bowlEmpty) {
+			System.out.println("Empty bowl selected. Please try another bowl.");
+		}
+		else if (!(this.getOwner().getMyTurn())) {
+			System.out.println("Not your turn. Please wait for your turn.");
+		}
+		else {
 			this.distributeBeads(beadsToDistribute);
 			this.emptyOwnBowl();
 			this.checkIfGameFinished();
 		}
 	}
 	
-	@Override
-	public void distributeBeads(int beadsToDistribute) {
+	/**
+	 * Overrides the distributeBeads function.
+	 * 
+	 * Distributes beads by adding one bead to own bowl, and passing the rest
+	 * of the beads to neighbour. Can perform a steal if last bead ends in
+	 * an empty bowl if its yours. Switches players if bead does not end in
+	 * own kalaha.
+	 */
+	void distributeBeads(int beadsToDistribute) {
 		
 		boolean beadEndsInOwnEmptyBowl = this.getNumberOfBeads() == 0 &&
 										 this.getOwner().getMyTurn();
-
 		if (beadsToDistribute == 0) {
 			this.addBeads(1);
 			if (beadEndsInOwnEmptyBowl) {
 				this.stealBeadsOppositeCell();
 			}
 			this.getOwner().switchTurnBothPlayers();
-
 		}
 		else {
 			this.addBeads(1);
@@ -93,7 +102,7 @@ class Bowl extends Cell {
 	 * Steals the beads from the opposite bowl by adding those beads to own bowl,
 	 * and then adding all beads to your own kalaha, leaving both bowls empty.
 	 */
-	public void stealBeadsOppositeCell() {
+	void stealBeadsOppositeCell() {
 		
 		this.addBeads(this.getOppositeCell().getNumberOfBeads());
 		this.getOppositeCell().emptyOwnBowl();
@@ -104,13 +113,38 @@ class Bowl extends Cell {
 		this.emptyOwnBowl();
 	}
 
+	@Override
+	Kalaha getMyKalaha() {
+		return this.getNextNeighbour().getMyKalaha();
+	}
 
 	@Override
-	boolean areMyBowlsEmpty() {
+	int getDistanceToMyKalaha() {
+		return this.getNextNeighbour().getDistanceToMyKalaha() + 1;
+	}
 
+	/**
+	 * Overrides the areYouEmpty function.
+	 * Checks whether neighbouring bowl is empty until the kalaha.
+	 * 
+	 * @return boolean true if neighbouring cell is empty, false otherwise
+	 */
+	boolean areYouEmpty() {
 		if (this.getNumberOfBeads() == 0) {
-			return this.getNextNeighbour().areMyBowlsEmpty();
+			return this.getNextNeighbour().areYouEmpty();
 		}
 		return false;
 	}
+
+	/**
+	 * Overrides the addYourBeadsToMyScore function.
+	 * 
+	 * @return number of beads counted
+	 */
+	int addYourBeadsToMyScore(int score) {
+		int newScore = score + this.getNumberOfBeads();
+		return this.getNextNeighbour().addYourBeadsToMyScore(newScore);
+	}
+
+
 }

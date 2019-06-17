@@ -9,10 +9,6 @@ package nl.sogyo.mancala.domain;
 
 class Kalaha extends Cell {
 
-	final static int STARTING_NO_BEADS = 0;
-	final static int TOTAL_NO_BEADS = 12 * 4;
-
-
 	/**
 	 * Kalaha constructor.
 	 * Initializes the number of beads, assigns the owner to a kalaha.
@@ -34,11 +30,34 @@ class Kalaha extends Cell {
 	
 	/**
 	* Overrides the doMove function.
-	*
-	* @throws RuntimeException If move is called on a kalaha
 	*/
 	public void doMove() {
 		System.out.println("Cannot do move on kalaha. Try again");
+	}
+
+	/**
+	 * Overrides the distributeBeads function.
+	 * 
+	 * Distribute beads by adding a bead to own kalaha if it's own kalaha,
+	 * will not add bead if kalaha not yours. Switches players if bead does 
+	 * not end in own kalaha.
+	 */
+	public void distributeBeads(int beadsToDistribute) {
+		
+		if (beadsToDistribute == 0) {
+			if (!this.getOwner().getMyTurn()) {
+				this.getOwner().switchTurnBothPlayers();
+			}
+		}
+		else {
+			if (this.getOwner().getMyTurn()) {
+				this.addBeads(1);
+				this.getNextNeighbour().distributeBeads(beadsToDistribute - 1);
+			}
+			else {
+				this.getNextNeighbour().distributeBeads(beadsToDistribute);
+			}
+		}
 	}
 	
 	/**
@@ -49,7 +68,6 @@ class Kalaha extends Cell {
 	public void steal() {
 		throw new RuntimeException("Cannot steal from kalaha.");
 	}
-
 
 	@Override
 	Kalaha getMyKalaha() {
@@ -63,33 +81,25 @@ class Kalaha extends Cell {
 	
 	@Override
 	public Cell getOppositeCell() {
-		Cell oppositeCell = this.getNeighbour(7);
-		return oppositeCell;
-	}
-	
-	@Override
-	public void distributeBeads(int beadsToDistribute) {
-		
-		if(beadsToDistribute == 0) {
-			if (!this.getOwner().getMyTurn()) {
-				this.getOwner().switchTurnBothPlayers();
-			}
-		}
-		
-		else {
-			if (this.getOwner().getMyTurn()) {
-				this.addBeads(1);
-				this.getNextNeighbour().distributeBeads(beadsToDistribute - 1);
-			}
-			else {
-				this.getNextNeighbour().distributeBeads(beadsToDistribute);
-			}
-		}
+		return this.getNeighbour(7);
 	}
 
-	@Override
-	boolean areMyBowlsEmpty() {
+	/**
+	 * Overrides the areYouEmpty function.
+	 * Checks whether neighbouring bowl is empty until the kalaha.
+	 * 
+	 * @return boolean true if all bowls until kalaha are empty, false otherwise
+	 */
+	boolean areYouEmpty() {
 		return true;
 	}
 
+	/**
+	 * Overrides the addYourBeadsToMyScore function.
+	 * 
+	 * @return your score
+	 */
+	int addYourBeadsToMyScore(int score) {
+		return this.getNumberOfBeads() + score;
+	}
 }

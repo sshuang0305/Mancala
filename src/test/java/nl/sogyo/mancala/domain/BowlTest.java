@@ -130,8 +130,10 @@ public class BowlTest {
 		assertEquals(true, cellNumber1.getOwner().getMyTurn());
 		cellNumber1.doMove();
 		assertEquals(false, cellNumber1.getOwner().getMyTurn());
-		cellNumber1.getNeighbour(1).doMove();
-		assertEquals(false, cellNumber1.getOwner().getMyTurn());
+		cellNumber1.getNeighbour(8).doMove();
+		assertEquals(true, cellNumber1.getOwner().getMyTurn());
+		cellNumber1.doMove();
+
 	}
 	
 	@Test
@@ -139,6 +141,7 @@ public class BowlTest {
 		assertEquals(true, cellNumber1.getOwner().getMyTurn());
 		cellNumber1.doMove();
 		assertEquals(false, cellNumber1.getOwner().getMyTurn());
+		cellNumber1.getNeighbour(1).doMove();
 	}
 
 	@Test
@@ -197,5 +200,12 @@ public class BowlTest {
 		assertEquals(5, cellNumber1.getNeighbour(1).getDistanceToMyKalaha());
 		assertEquals(0, cellNumber1.getNeighbour(6).getDistanceToMyKalaha());
 		assertEquals(5, cellNumber1.getNeighbour(8).getDistanceToMyKalaha());
+	}
+	
+	@Test
+	public void getMyScoreTest() {
+		assertEquals(24, cellNumber1.getMyScore());
+		cellNumber1.getNeighbour(5).doMove();
+		assertEquals(21, cellNumber1.getMyScore());
 	}
 }

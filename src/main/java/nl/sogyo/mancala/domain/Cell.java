@@ -11,11 +11,14 @@ package nl.sogyo.mancala.domain;
 abstract class Cell {
 
 	final static int TOTAL_NO_CELLS = 14;
-
-	private int numberOfBeads;
 	private int sizeOfDomain = 0;
+	private int numberOfBeads;
 	private Player owner;
 	private Cell nextNeighbour;
+
+	public void setStartingNumberOfBeads(int beads) {
+		this.numberOfBeads = beads;
+	}
 	
 	public int getNumberOfBeads() {
 		return this.numberOfBeads;
@@ -23,10 +26,6 @@ abstract class Cell {
 
 	public void addBeads(int beads) {
 		this.numberOfBeads += beads;
-	}
-	
-	public void setStartingNumberOfBeads(int beads) {
-		this.numberOfBeads = beads;
 	}
 
 	public void emptyOwnBowl() {
@@ -53,7 +52,7 @@ abstract class Cell {
 	 * Gets your neighbour (Bowl/Kalaha) at a specified position
 	 *
 	 * @param positionOfNeighbour Integer to specify position of neighbour
-	 * @return					  Neighbour at specified position
+	 * @return					  Neighbouring cell at specified position
 	 */
 	public Cell getNeighbour(int positionOfNeighbour) {
 
@@ -95,12 +94,21 @@ abstract class Cell {
 		return this.getNeighbour(2 * this.getDistanceToMyKalaha());
 	}
 	
+	/**
+	 * Checks if all your bowls are empty by asking each neighbour starting from
+	 * the opponents Kalaha until your own kalaha.
+	 * 
+	 * @return	true if all bowls are empty, false otherwise
+	 */
 	public boolean areAllMyBowlsEmpty() {
 		Cell opponnentsKalaha = this.getMyKalaha().getOppositeCell();
-		return opponnentsKalaha.getNextNeighbour().areMyBowlsEmpty();
-	
+		return opponnentsKalaha.getNextNeighbour().areYouEmpty();
 	}
 	
+	/**
+	 * Checks if game is finished by checking if own bowl, or opponents bowl
+	 * is empty. If so, it will let the owners know.
+	 */
 	public void checkIfGameFinished() {
 		if (this.areAllMyBowlsEmpty() || this.getOppositeCell().areAllMyBowlsEmpty()) {
 			this.getOwner().gameFinished = true;
@@ -108,10 +116,21 @@ abstract class Cell {
 		}
 	}
 	
+	/**
+	 * Gets the score of the game by counting the number of beads in own bowls
+	 * and kalaha.
+	 * @return the score
+	 */
+	public int getMyScore() {
+		int score = 0;
+		Cell opponnentsKalaha = this.getMyKalaha().getOppositeCell();
+		return opponnentsKalaha.getNextNeighbour().addYourBeadsToMyScore(score);
+	}
 
 	abstract void doMove();
 	abstract void distributeBeads(int beadsToDistribute);
 	abstract Kalaha getMyKalaha();
 	abstract int getDistanceToMyKalaha();
-	abstract boolean areMyBowlsEmpty();
+	abstract boolean areYouEmpty();
+	abstract int addYourBeadsToMyScore(int score);
 }

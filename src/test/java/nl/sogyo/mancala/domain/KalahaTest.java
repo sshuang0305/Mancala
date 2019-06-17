@@ -91,8 +91,5 @@ public class KalahaTest {
 		assertEquals(5, cellNumber1.getNeighbour(9).getNumberOfBeads());
 		assertEquals(4, cellNumber1.getNeighbour(10).getNumberOfBeads());
 	}
-	
-	@Test
-	public void getScoreTest() {
-	}
+
 }

@@ -44,6 +44,7 @@ public class Player {
 	public Player getOpponent() {
 		return this.opponent;
 	}
+
 	/**
 	 * Switches the turn of the players.
 	 */

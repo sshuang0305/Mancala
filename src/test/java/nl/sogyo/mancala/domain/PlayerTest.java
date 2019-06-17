@@ -51,5 +51,4 @@ public class PlayerTest {
 		assertEquals(false, player.getMyTurn());
 		assertEquals(true, player.getOpponent().getMyTurn());
 	}
-	
 }

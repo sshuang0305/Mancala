@@ -5,8 +5,6 @@
  * @since 22-05-19
  */
 
- // hello
-
 package nl.sogyo.mancala.domain;
 
 class Bowl extends Cell {

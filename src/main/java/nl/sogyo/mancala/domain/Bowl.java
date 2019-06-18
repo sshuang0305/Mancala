@@ -1,9 +1,11 @@
 /**
  * Bowl.java
- * 
+ *
  * @author Shan Shan Huang
  * @since 22-05-19
  */
+
+ // hello
 
 package nl.sogyo.mancala.domain;
 
@@ -20,7 +22,7 @@ class Bowl extends Cell {
 		super.setStartingOwner(new Player());
 		super.setNextNeighbour(new Bowl(TOTAL_NO_CELLS - 1, this, getOwner()));
 	}
-	
+
 	/**
 	 * Bowl constructor to create neighbour cells.
 	 * Initializes the number of beads, assigns the owner of the cell,
@@ -49,10 +51,10 @@ class Bowl extends Cell {
 
 	/**
 	 * Overrides the doMove function.
-	 * 
+	 *
 	 * Does a move on a bowl by emptying bowl and distributing the beads
 	 * in the bowl. When an empty bowl is selected, or when its not the turn
-	 * of the player, it will let the player know. Checks if game is finished 
+	 * of the player, it will let the player know. Checks if game is finished
 	 * after each move.
 	 */
 	void doMove() {
@@ -72,17 +74,17 @@ class Bowl extends Cell {
 			this.checkIfGameFinished();
 		}
 	}
-	
+
 	/**
 	 * Overrides the distributeBeads function.
-	 * 
+	 *
 	 * Distributes beads by adding one bead to own bowl, and passing the rest
 	 * of the beads to neighbour. Can perform a steal if last bead ends in
 	 * an empty bowl if its yours. Switches players if bead does not end in
 	 * own kalaha.
 	 */
 	void distributeBeads(int beadsToDistribute) {
-		
+
 		boolean beadEndsInOwnEmptyBowl = this.getNumberOfBeads() == 0 &&
 										 this.getOwner().getMyTurn();
 		if (beadsToDistribute == 0) {
@@ -97,13 +99,13 @@ class Bowl extends Cell {
 			this.getNextNeighbour().distributeBeads(beadsToDistribute - 1);
 		}
 	}
-	
+
 	/**
 	 * Steals the beads from the opposite bowl by adding those beads to own bowl,
 	 * and then adding all beads to your own kalaha, leaving both bowls empty.
 	 */
 	void stealBeadsOppositeCell() {
-		
+
 		this.addBeads(this.getOppositeCell().getNumberOfBeads());
 		this.getOppositeCell().emptyOwnBowl();
 
@@ -126,7 +128,7 @@ class Bowl extends Cell {
 	/**
 	 * Overrides the areYouEmpty function.
 	 * Checks whether neighbouring bowl is empty until the kalaha.
-	 * 
+	 *
 	 * @return boolean true if neighbouring cell is empty, false otherwise
 	 */
 	boolean areYouEmpty() {
@@ -138,7 +140,7 @@ class Bowl extends Cell {
 
 	/**
 	 * Overrides the addYourBeadsToMyScore function.
-	 * 
+	 *
 	 * @return number of beads counted
 	 */
 	int addYourBeadsToMyScore(int score) {

@@ -145,6 +145,4 @@ class Bowl extends Cell {
 		int newScore = score + this.getNumberOfBeads();
 		return this.getNextNeighbour().addYourBeadsToMyScore(newScore);
 	}
-
-
 }

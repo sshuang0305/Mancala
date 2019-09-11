@@ -1,3 +1,10 @@
+/**
+ * KalahaTest.java
+ * 
+ * @author Shan Shan Huang
+ * @since 22-05-19
+ */
+
 package nl.sogyo.mancala.domain;
 
 import static org.junit.Assert.*;

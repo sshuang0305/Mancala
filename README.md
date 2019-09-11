@@ -10,8 +10,8 @@ Om het project goed te openen, zul je het pom.xml bestand moeten importeren in j
 
 Mapstructuur
 ------------
-`src/main/java` bevat de implementatie van het spel.
-`src/test/java` bevat de unit tests van de implementatie.
+* `src/main/java` bevat de implementatie van het spel.
+* `src/test/java` bevat de unit tests van de implementatie.
 
 
 Unit testen
